@@ -3,30 +3,31 @@ CONTRERAS MARTINEZ BRYAN DANIEL
  */
 package edu.utj.dsm.poo.biblioteca.modelo;
 
+import java.util.Scanner;
+
 /**
  *
  * @author Tazit
  */
-import java.util.Scanner;
 public class TestHerencia {
     private Scanner entrada = new Scanner(System.in);
-  private  Bibliotecario biblio =new Bibliotecario();
-   private Autor autor =new Autor();
-  private  Usuario usuario =new Usuario();
-  
-  public void capturarDatosBibliotecario(){
-      System.out.println("RFC: ");
-      biblio.setRfc(entrada.next());
-      System.out.println("Nombre: ");
-      biblio.setNombre(entrada.next());
-      System.out.println("Primer Apellido: ");
-      biblio.setPrimerApe(entrada.next());
-      System.out.println("Turno: ");
-      biblio.setTurno(entrada.next());
-      System.out.println("Area: ");
-      biblio.setArea(entrada.next());
-  }
-  
+    private Bibliotecario biblio = new Bibliotecario();
+    private Autor autor = new Autor();
+    private Usuario usuario = new Usuario();
+
+    public void capturarDatosBibliotecario(){
+        System.out.println("RFC: ");
+        biblio.setRfc(entrada.next());
+        System.out.println("Nombre: ");
+        biblio.setNombre(entrada.next());
+        System.out.println("Primer Apellido: ");
+        biblio.setPrimerApellido(entrada.next());
+        System.out.println("Turno: ");
+        biblio.setTurno(entrada.next());
+        System.out.println("Area: ");
+        biblio.setArea(entrada.next());
+    }
+
     public void mostrarDatosBibliotecario(){
         System.out.println("Datos del bibliotecario");
         System.out.println("RFC: "+biblio.getRfc());
@@ -34,51 +35,50 @@ public class TestHerencia {
         System.out.println("Turno: " +biblio.getTurno());
         System.out.println("Area: "+biblio.getArea());
     }
+
     public void capturarDatosAutor(){
-      System.out.println("RFC: ");
-      autor.setRfc(entrada.next());
-      System.out.println("Nombre: ");
-      autor.setNombre(entrada.next());
-      System.out.println("Primer Apellido: ");
-      autor.setPrimerApe(entrada.next());
-        System.out.println("Genero: ");
-        autor.setGenero(entrada.next());
+        System.out.println("RFC: ");
+        autor.setRfc(entrada.next());
+        System.out.println("Nombre: ");
+        autor.setNombre(entrada.next());
+        System.out.println("Primer Apellido: ");
+        autor.setPrimerApellido(entrada.next());
         System.out.println("Nacionalidad: ");
         autor.setNacionalidad(entrada.next());
-  }
-    
-  
+        System.out.println("Seudonimo: ");
+        autor.setSeudonimo(entrada.next());
+    }
+
     public void mostrarDatosAutor(){
         System.out.println("Datos del autor");
         System.out.println("RFC: "+autor.getRfc());
         System.out.println("Nombre: "+autor.getNombre() + " "+autor.getPrimerApellido());
-        System.out.println("Genero: "+autor.getGenero());
         System.out.println("Nacionalidad: "+autor.getNacionalidad());
+        System.out.println("Seudonimo: "+autor.getSeudonimo());
     }
+
     public void capturarDatosUsuario(){
-      System.out.println("RFC: ");
-      usuario.setRfc(entrada.next());
-      System.out.println("Nombre: ");
-      usuario.setNombre(entrada.next());
-      System.out.println("Primer Apellido: ");
-      usuario.setPrimerApe(entrada.next());
-        System.out.println("Direccion: ");
-        usuario.setDireccion(entrada.next());
-        System.out.println("Telefono: ");
-        usuario.setTelefono(entrada.next());
-  }
-  
+        System.out.println("RFC: ");
+        usuario.setRfc(entrada.next());
+        System.out.println("Nombre: ");
+        usuario.setNombre(entrada.next());
+        System.out.println("Primer Apellido: ");
+        usuario.setPrimerApellido(entrada.next());
+        System.out.println("Numero de credencial: ");
+        usuario.setNumeroCredencial(entrada.next());
+    }
+
     public void mostrarDatosUsuario(){
         System.out.println("Datos del usuario");
         System.out.println("RFC: "+usuario.getRfc());
         System.out.println("Nombre: "+usuario.getNombre() + " "+usuario.getPrimerApellido());
-        System.out.println("Direccion: "+usuario.getDireccion());
-        System.out.println("Telefono: "+usuario.getTelefono());
+        System.out.println("Numero de credencial: "+usuario.getNumeroCredencial());
+        System.out.println("Activo: "+usuario.isActivo());
     }
+
     public static void main(String[] args) {
         System.out.println("CONTRERAS MARTINEZ BRYAN DANIEL");
-        // Aqui crear un menu ciclado para seleccionar un tipo de persona
-        TestHerencia test=new TestHerencia();
+        TestHerencia test = new TestHerencia();
         Scanner menu = new Scanner(System.in);
         int opcion;
         do{
@@ -89,7 +89,7 @@ public class TestHerencia {
             System.out.println("0. Salir");
             System.out.println("Seleccione una opcion: ");
             opcion = menu.nextInt();
-            
+
             switch(opcion){
                 case 1: test.capturarDatosBibliotecario();
                         test.mostrarDatosBibliotecario();
