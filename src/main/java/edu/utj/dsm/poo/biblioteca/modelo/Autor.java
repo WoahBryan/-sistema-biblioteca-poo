@@ -1,55 +1,72 @@
-/*
-CONTRERAS MARTINEZ BRYAN DANIEL
- */
 package edu.utj.dsm.poo.biblioteca.modelo;
 
 /**
- *
- * @author Tazit
+ * Clase que representa al creador intelectual de un material de la biblioteca.
+ * Se define como final para impedir la creación de subclases.
+ * 
+ * @author CONTRERAS MARTINEZ BRYAN DANIEL
  */
-public final class Autor extends Persona  {
-    private String genero;
+public final class Autor extends Persona {
     private String nacionalidad;
+    private String seudonimo;
+
     /**
-     * Incializa los atributos propios del autor
+     * Constructor vacío requerido por la rúbrica.
      */
-    public Autor(){
+    public Autor() {
         super();
-        this.genero = "";
         this.nacionalidad = "";
+        this.seudonimo = "";
     }
+
     /**
-     * Establece genero literario del autor
-     * @param genero genero a asignar
+     * Constructor con los atributos mínimos indispensables.
+     * 
+     * @param id Identificador único de la persona.
+     * @param nombre Nombre de pila.
+     * @param primerApellido Primer apellido.
+     * @param nacionalidad País de origen del autor.
      */
-    public void setGenero(String genero){
-        this.genero = genero;
+    public Autor(int id, String nombre, String primerApellido, String nacionalidad) {
+        super(id, nombre, primerApellido);
+        this.nacionalidad = nacionalidad;
+        this.seudonimo = "";
     }
+
     /**
-     * Obtiene genero literario del autor
-     * @return genero literario
+     * Obtiene la nacionalidad del autor.
+     * @return nacionalidad del autor.
      */
-    public String getGenero(){
-        return this.genero;
+    public String getNacionalidad() {
+        return nacionalidad;
     }
+
     /**
-     * Establece la nacionalidad del autor
-     * @param nacionalidad nacionalidad a asignar
+     * Establece la nacionalidad del autor.
+     * @param nacionalidad país a asignar.
      */
-    public void setNacionalidad(String nacionalidad){
+    public void setNacionalidad(String nacionalidad) {
         this.nacionalidad = nacionalidad;
     }
+
     /**
-     * Obtiene la nacionalidad del autor
-     * @return nacionalidad del autor
+     * Obtiene el seudónimo del autor.
+     * @return seudónimo utilizado.
      */
-    public String getNacionalidad(){
-        return this.nacionalidad;
+    public String getSeudonimo() {
+        return seudonimo;
+    }
+
+    /**
+     * Establece el seudónimo del autor.
+     * @param seudonimo nombre artístico a asignar.
+     */
+    public void setSeudonimo(String seudonimo) {
+        this.seudonimo = seudonimo;
     }
 
     @Override
     public String toString() {
-        return super.toString()+"Autor{" + "genero=" + genero + ", nacionalidad=" + nacionalidad + '}';
+        return super.toString() + " Autor{" + "nacionalidad=" + nacionalidad + ", seudonimo=" + seudonimo + '}';
     }
-    
 }

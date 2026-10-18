@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane prefHeight="500.0" prefWidth="750.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.utj.dsm.poo.biblioteca.controlador.UsuarioViewController">
+   <children>
+   <Label layoutX="30.0" layoutY="20.0" text="Gestión de Usuarios" style="-fx-font-size: 24px; -fx-font-weight: bold;"/>      
+      <Label layoutX="30.0" layoutY="80.0" text="ID:" />
+      <TextField fx:id="txtId" layoutX="150.0" layoutY="75.0" disable="true"/>
+
+      <Label layoutX="30.0" layoutY="125.0" text="Nombre:" />
+      <TextField fx:id="txtNombre" layoutX="150.0" layoutY="120.0" onKeyTyped="#restringirLetras"/>
+      <Label fx:id="lblErrorNombre" layoutX="150.0" layoutY="145.0" textFill="RED" style="-fx-font-size: 10px;"/>
+
+      <Label layoutX="30.0" layoutY="170.0" text="Primer Apellido:" />
+      <TextField fx:id="txtPrimerApellido" layoutX="150.0" layoutY="165.0" onKeyTyped="#restringirLetras"/>
+      <Label fx:id="lblErrorApellido" layoutX="150.0" layoutY="190.0" textFill="RED" style="-fx-font-size: 10px;"/>
+
+      <Label layoutX="30.0" layoutY="215.0" text="Credencial:" />
+      <TextField fx:id="txtNumeroCredencial" layoutX="150.0" layoutY="210.0" onKeyTyped="#restringirNumeros"/>
+      <Label fx:id="lblErrorCredencial" layoutX="150.0" layoutY="235.0" textFill="RED" style="-fx-font-size: 10px;"/>
+
+      <Label layoutX="30.0" layoutY="260.0" text="Estado:" />
+      <ComboBox fx:id="cmbEstado" layoutX="150.0" layoutY="255.0" prefWidth="150.0"/>
+
+      <Button fx:id="btnNuevo" layoutX="30.0" layoutY="350.0" text="Nuevo" />
+      <Button fx:id="btnValidar" layoutX="90.0" layoutY="350.0" text="Validar" onAction="#accionValidar"/>
+      <Button fx:id="btnGuardar" layoutX="155.0" layoutY="350.0" text="Guardar" disable="true"/>
+      <Button fx:id="btnEditar" layoutX="230.0" layoutY="350.0" text="Editar" disable="true"/>
+      <Button fx:id="btnEliminar" layoutX="290.0" layoutY="350.0" text="Eliminar" disable="true"/>
+      <Button fx:id="btnLimpiar" layoutX="365.0" layoutY="350.0" text="Limpiar" onAction="#accionLimpiar"/>
+
+      <TableView fx:id="tablaUsuarios" layoutX="440.0" layoutY="20.0" prefHeight="450.0" prefWidth="290.0">
+        <columns>
+          <TableColumn fx:id="colId" prefWidth="30.0" text="ID" />
+          <TableColumn fx:id="colNombre" prefWidth="75.0" text="Nombre" />
+          <TableColumn fx:id="colApellido" prefWidth="75.0" text="Apellido" />
+          <TableColumn fx:id="colCredencial" prefWidth="60.0" text="Credencial" />
+          <TableColumn fx:id="colEstado" prefWidth="50.0" text="Estado" />
+        </columns>
+      </TableView>
+   </children>
+</AnchorPane>

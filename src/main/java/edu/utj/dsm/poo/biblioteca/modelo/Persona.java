@@ -1,129 +1,169 @@
-/*
- CONTRERAS MARTINEZ BRYAN DANIEL
- */
 package edu.utj.dsm.poo.biblioteca.modelo;
 
 import java.util.Date;
 import java.util.Objects;
 
 /**
- *
- * @author Tazit
+ * Clase base abstracta que representa a una entidad humana dentro del sistema de la biblioteca.
+ * Sirve como generalización para usuarios, bibliotecarios y autores.
+ * 
+ * @author CONTRERAS MARTINEZ BRYAN DANIEL
  */
 public abstract class Persona {
-    protected String rfc, nombre;// Por default los String inician en null
-    protected String primerApellido, segundoApellido;
-    protected  Date nacimiento;// Por default los Date inician en null
-    protected String rutaImagen;
+    private int id;
+    private String rfc;
+    private String nombre;
+    private String primerApellido;
+    private String segundoApellido;
+    private Date nacimiento;
+    private String rutaImagen;
+
     /**
-     * Sirve para inicializar los atributos 
-     * O bien, para recibir datos externos de inicializacion
+     * Constructor vacío requerido para frameworks e instanciación por defecto.
      */
-    public Persona(){
-     this.rfc="";
-     this.nombre="";
-     this.primerApellido="";
-     this.segundoApellido="";
-     this.nacimiento=new Date(2026, 9, 4);
+    public Persona() {
+        this.id = 0;
+        this.rfc = "";
+        this.nombre = "";
+        this.primerApellido = "";
+        this.segundoApellido = "";
+        this.nacimiento = new Date();
+        this.rutaImagen = "";
     }
-    
-    //Set
+
     /**
-     * Establece el RFC de la persona
-     * @param rfc RFC a asginar
+     * Constructor con los atributos mínimos indispensables para que el objeto nazca válido.
+     * 
+     * @param id Identificador único primario de la persona.
+     * @param nombre Nombre de pila de la persona.
+     * @param primerApellido Primer apellido de la persona.
      */
-    public void setRfc(String rfc){
-        this.rfc= rfc;
+    public Persona(int id, String nombre, String primerApellido) {
+        this.id = id;
+        this.nombre = nombre;
+        this.primerApellido = primerApellido;
+        this.rfc = "";
+        this.segundoApellido = "";
+        this.nacimiento = new Date();
+        this.rutaImagen = "";
     }
+
     /**
-     * Establece el nombre de la persona
-     * @param nombre nombre a asginar
+     * Obtiene el identificador único de la persona.
+     * @return id de la persona.
      */
-    public void setNombre(String nombre){
-        this.nombre= nombre;
+    public int getId() {
+        return id;
     }
+
     /**
-     * Establece el primer apellido de la persona
-     * @param primerApe primer apellido a asignar
+     * Establece el identificador único de la persona.
+     * @param id Identificador entero a asignar.
      */
-     public void setPrimerApe(String primerApe){
-        this.primerApellido = primerApe;
+    public void setId(int id) {
+        this.id = id;
     }
-     /**
-      * Establece el segundo apellido de la persona
-      * @param segundoApe  segundo apelido a asignar.
-      */
-    
-    public void setSegundoApellido(String segundoApe){
-        this.segundoApellido= segundoApe;
-    }
+
     /**
-     * Establece la fecha de nacimiento de la persona
-     * @param nacimiento nacimiento fecha a asignar
+     * Obtiene el RFC de la persona.
+     * @return RFC asignado.
      */
-    public void setNacimiento(Date nacimiento){
+    public String getRfc() {
+        return rfc;
+    }
+
+    /**
+     * Establece el RFC de la persona.
+     * @param rfc Registro a asignar.
+     */
+    public void setRfc(String rfc) {
+        this.rfc = rfc;
+    }
+
+    /**
+     * Obtiene el nombre de la persona.
+     * @return nombre de la persona.
+     */
+    public String getNombre() {
+        return nombre;
+    }
+
+    /**
+     * Establece el nombre de la persona.
+     * @param nombre nombre a asignar.
+     */
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+
+    /**
+     * Obtiene el primer apellido de la persona.
+     * @return primer apellido.
+     */
+    public String getPrimerApellido() {
+        return primerApellido;
+    }
+
+    /**
+     * Establece el primer apellido de la persona.
+     * @param primerApellido primer apellido a asignar.
+     */
+    public void setPrimerApellido(String primerApellido) {
+        this.primerApellido = primerApellido;
+    }
+
+    /**
+     * Obtiene el segundo apellido de la persona.
+     * @return segundo apellido.
+     */
+    public String getSegundoApellido() {
+        return segundoApellido;
+    }
+
+    /**
+     * Establece el segundo apellido de la persona.
+     * @param segundoApellido segundo apellido a asignar.
+     */
+    public void setSegundoApellido(String segundoApellido) {
+        this.segundoApellido = segundoApellido;
+    }
+
+    /**
+     * Obtiene la fecha de nacimiento.
+     * @return fecha de nacimiento.
+     */
+    public Date getNacimiento() {
+        return nacimiento;
+    }
+
+    /**
+     * Establece la fecha de nacimiento.
+     * @param nacimiento fecha a asignar.
+     */
+    public void setNacimiento(Date nacimiento) {
         this.nacimiento = nacimiento;
     }
+
     /**
-     * Establece la ruta de la imagen de la persona
-     * @param ruta ruta de la imagen
+     * Obtiene la ruta de la imagen.
+     * @return ruta de la imagen.
      */
-    public void setRutaImagen(String ruta){
-        this.rutaImagen = ruta;
+    public String getRutaImagen() {
+        return rutaImagen;
     }
-    
-    
-    //Get
+
     /**
-     * Obtiene el RFC de la persona
-     * @return RFC de la persona
+     * Establece la ruta de la imagen.
+     * @param rutaImagen ruta a asignar.
      */
-    public String getRfc(){
-        return this.rfc;
-    }
-    
-    /**
-     * Obtiene el nombre de la persona
-     * @return nombre de la persona
-     */
-    public String getNombre(){
-        return this.nombre;
-    }
-    /**
-     * Obtiene el primer apellido de la persona
-     * @return primer apellido de la persona
-     */
-    public String getPrimerApellido(){
-        return this.primerApellido;
-    }
-    /**
-     * Obtiene el segundo apellido de la persona
-     * @return segundo apellido de la persona
-     */
-    
-    public String getSegundoApellido(){
-        return this.segundoApellido;
-    }
-   /**
-    * Obtiene la fecha de nacimiento de la persona
-    * @return fecha de nacimiento de la persona
-    */
-    public Date getNacimiento(){
-        return this.nacimiento;
-    }
-    /**
-     * Obtiene la ruta de imagen de la persona
-     * @return ruta de imagen
-     */
-    public String getRutaImagen(){
-        return this.rutaImagen;
-        
+    public void setRutaImagen(String rutaImagen) {
+        this.rutaImagen = rutaImagen;
     }
 
     @Override
     public int hashCode() {
-        int hash = 7;
-        hash = 73 * hash + Objects.hashCode(this.rfc);
+        int hash = 5;
+        hash = 97 * hash + this.id;
         return hash;
     }
 
@@ -139,17 +179,11 @@ public abstract class Persona {
             return false;
         }
         final Persona other = (Persona) obj;
-        return Objects.equals(this.rfc, other.rfc);
+        return this.id == other.id;
     }
 
     @Override
     public String toString() {
-        return "Persona{" + "rfc=" + rfc + ", nombre=" + nombre + ", primerApellido=" + primerApellido + ", segundoApellido=" + segundoApellido + ", nacimiento=" + nacimiento + ", rutaImagen=" + rutaImagen + '}';
+        return "Persona{" + "id=" + id + ", rfc=" + rfc + ", nombre=" + nombre + ", primerApellido=" + primerApellido + ", segundoApellido=" + segundoApellido + ", nacimiento=" + nacimiento + ", rutaImagen=" + rutaImagen + '}';
     }
- 
-    
-    
-    
-    
-    
 }
