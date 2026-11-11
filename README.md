@@ -7,13 +7,13 @@
 
 ---
 
-## 📌 Descripción del Proyecto
+## Descripción del Proyecto
 
 El **Sistema de Gestión de Biblioteca** es una aplicación de escritorio desarrollada en **Java** utilizando el framework **JavaFX** y gestionada mediante **Apache Maven**. El objetivo principal de la aplicación es proporcionar una interfaz gráfica de usuario (GUI) intuitiva y funcional para la administración integral de un catálogo bibliotecario, gestionando módulos de usuarios, bibliotecarios, autores, materiales bibliográficos, préstamos y sanciones.
 
 ---
 
-## 🏗️ Arquitectura y Patrón de Diseño
+## Arquitectura y Patrón de Diseño
 
 El proyecto está estructurado bajo el patrón arquitectónico **MVC (Modelo-Vista-Controlador)**:
 
@@ -23,7 +23,7 @@ El proyecto está estructurado bajo el patrón arquitectónico **MVC (Modelo-Vis
 
 ---
 
-## 🛠️ Tecnologías y Herramientas Utilizadas
+## Tecnologías y Herramientas Utilizadas
 
 - **Lenguaje:** Java 17 (JDK 17 LTS)
 - **Framework GUI:** JavaFX 13 / 17 (JavaFX Controls, JavaFX FXML)
@@ -34,7 +34,7 @@ El proyecto está estructurado bajo el patrón arquitectónico **MVC (Modelo-Vis
 
 ---
 
-## 📦 Estructura del Proyecto
+## Estructura del Proyecto
 
 Biblioteca/
 ├── src/
@@ -71,7 +71,7 @@ Biblioteca/
 
 ---
 
-## 🚀 Instrucciones de Ejecución
+## Instrucciones de Ejecución
 
 ### Prerrequisitos
 - JDK 17 o superior instalado y configurado en las variables de entorno.
