@@ -4,7 +4,7 @@ Este repositorio contiene la capa del modelo de datos para un sistema de gestió
 
 ## Autor
 * **Bryan Daniel Contreras Martinez** 
-* Actividad 2.2 - Diseño e implementación del dominio de clases modelo.
+
 
 ## Estructura del Modelo
 
