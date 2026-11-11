@@ -2,14 +2,20 @@
 package edu.utj.dsm.poo.biblioteca.controlador;
 
 import edu.utj.dsm.poo.biblioteca.modelo.Bibliotecario;
+import edu.utj.dsm.poo.biblioteca.persistencia.BibliotecarioDAO;
+import edu.utj.dsm.poo.biblioteca.persistencia.ImagenUtil;
+import java.io.File;
+import java.io.IOException;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
+import javafx.stage.FileChooser;
 
 public class BibliotecarioViewController {
 
@@ -41,6 +47,10 @@ public class BibliotecarioViewController {
     @FXML private TableColumn<Bibliotecario, String> colArea;
 
     private ObservableList<Bibliotecario> listaBibliotecarios = FXCollections.observableArrayList();
+    private BibliotecarioDAO bibliotecarioDAO = new BibliotecarioDAO();
+
+    // Imagen elegida con el FileChooser que todavía no se copia al proyecto
+    private File archivoSeleccionado = null;
 
     @FXML
     public void initialize() {
@@ -49,21 +59,141 @@ public class BibliotecarioViewController {
         colApellido.setCellValueFactory(new PropertyValueFactory<>("primerApellido"));
         colTurno.setCellValueFactory(new PropertyValueFactory<>("turno"));
         colArea.setCellValueFactory(new PropertyValueFactory<>("area"));
-        tablaBibliotecarios.setItems(listaBibliotecarios);
 
+        cargarDatosTabla();
         configurarEstadoInicialBotones();
 
-        txtNombre.textProperty().addListener((obs, oldVal, newVal) -> validarCamposEnTiempoReal());
-        txtPrimerApellido.textProperty().addListener((obs, oldVal, newVal) -> validarCamposEnTiempoReal());
-        txtTurno.textProperty().addListener((obs, oldVal, newVal) -> validarCamposEnTiempoReal());
-        txtArea.textProperty().addListener((obs, oldVal, newVal) -> validarCamposEnTiempoReal());
+        txtNombre.textProperty().addListener((obs, o, n) -> validarCamposEnTiempoReal());
+        txtPrimerApellido.textProperty().addListener((obs, o, n) -> validarCamposEnTiempoReal());
+        txtTurno.textProperty().addListener((obs, o, n) -> validarCamposEnTiempoReal());
+        txtArea.textProperty().addListener((obs, o, n) -> validarCamposEnTiempoReal());
 
         tablaBibliotecarios.getSelectionModel().selectedItemProperty().addListener((obs, oldSel, newSel) -> {
             if (newSel != null) {
+                txtId.setText(String.valueOf(newSel.getId()));
+                txtNombre.setText(newSel.getNombre());
+                txtPrimerApellido.setText(newSel.getPrimerApellido());
+                txtTurno.setText(newSel.getTurno());
+                txtArea.setText(newSel.getArea());
+
+                // Mostrar la imagen guardada del registro
+                archivoSeleccionado = null;
+                imgFoto.setImage(ImagenUtil.cargar(newSel.getFoto()));
+
                 btnEditar.setDisable(false);
                 btnEliminar.setDisable(false);
+                btnGuardar.setDisable(true);
             }
         });
+    }
+
+    private void cargarDatosTabla() {
+        listaBibliotecarios.clear();
+        listaBibliotecarios.addAll(bibliotecarioDAO.obtenerTodos());
+        tablaBibliotecarios.setItems(listaBibliotecarios);
+    }
+
+    @FXML
+    private void accionSeleccionarImagen(ActionEvent event) {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Buscar Imagen del Bibliotecario");
+        fileChooser.getExtensionFilters().addAll(
+                new FileChooser.ExtensionFilter("Imágenes", "*.png", "*.jpg", "*.jpeg"));
+
+        File archivo = fileChooser.showOpenDialog(null);
+        if (archivo != null) {
+            archivoSeleccionado = archivo;
+            imgFoto.setImage(new Image(archivo.toURI().toString()));
+        }
+    }
+
+    @FXML
+    private void accionNuevo(ActionEvent event) {
+        accionLimpiar(event);
+    }
+
+    @FXML
+    private void accionGuardar(ActionEvent event) {
+        Bibliotecario nuevo = new Bibliotecario();
+        nuevo.setNombre(txtNombre.getText());
+        nuevo.setPrimerApellido(txtPrimerApellido.getText());
+        nuevo.setTurno(txtTurno.getText());
+        nuevo.setArea(txtArea.getText());
+
+        try {
+            if (archivoSeleccionado != null) {
+                nuevo.setFoto(ImagenUtil.copiar(archivoSeleccionado, "bibliotecarios"));
+            }
+        } catch (IOException e) {
+            mostrarAlerta(Alert.AlertType.ERROR, "Error", "No se pudo copiar la imagen: " + e.getMessage());
+            return;
+        }
+
+        if (bibliotecarioDAO.insertar(nuevo)) {
+            mostrarAlerta(Alert.AlertType.INFORMATION, "Éxito", "Bibliotecario guardado correctamente.");
+            cargarDatosTabla();
+            accionLimpiar(null);
+        } else {
+            ImagenUtil.borrar(nuevo.getFoto());
+            mostrarAlerta(Alert.AlertType.ERROR, "Error", "No se pudo guardar el bibliotecario.");
+        }
+    }
+
+    @FXML
+    private void accionEditar(ActionEvent event) {
+        Bibliotecario seleccionado = tablaBibliotecarios.getSelectionModel().getSelectedItem();
+        if (seleccionado == null) return;
+
+        String rutaVieja = seleccionado.getFoto();
+        String rutaNueva = rutaVieja;
+
+        try {
+            if (archivoSeleccionado != null) {
+                rutaNueva = ImagenUtil.copiar(archivoSeleccionado, "bibliotecarios");
+            }
+        } catch (IOException e) {
+            mostrarAlerta(Alert.AlertType.ERROR, "Error", "No se pudo copiar la imagen: " + e.getMessage());
+            return;
+        }
+
+        seleccionado.setNombre(txtNombre.getText());
+        seleccionado.setPrimerApellido(txtPrimerApellido.getText());
+        seleccionado.setTurno(txtTurno.getText());
+        seleccionado.setArea(txtArea.getText());
+        seleccionado.setFoto(rutaNueva);
+
+        if (bibliotecarioDAO.actualizar(seleccionado)) {
+            // Si se cambió la imagen, se borra la anterior del disco
+            if (archivoSeleccionado != null) {
+                ImagenUtil.borrar(rutaVieja);
+            }
+            mostrarAlerta(Alert.AlertType.INFORMATION, "Éxito", "Bibliotecario actualizado correctamente.");
+            cargarDatosTabla();
+            accionLimpiar(null);
+        } else {
+            if (archivoSeleccionado != null) {
+                ImagenUtil.borrar(rutaNueva);
+            }
+            seleccionado.setFoto(rutaVieja);
+            mostrarAlerta(Alert.AlertType.ERROR, "Error", "No se pudo actualizar el bibliotecario.");
+        }
+    }
+
+    @FXML
+    private void accionEliminar(ActionEvent event) {
+        Bibliotecario seleccionado = tablaBibliotecarios.getSelectionModel().getSelectedItem();
+        if (seleccionado == null) return;
+
+        String ruta = seleccionado.getFoto();
+        if (bibliotecarioDAO.eliminar(seleccionado.getId())) {
+            // La imagen se borra solo cuando el registro ya se eliminó de la BD
+            ImagenUtil.borrar(ruta);
+            mostrarAlerta(Alert.AlertType.INFORMATION, "Éxito", "Bibliotecario eliminado correctamente.");
+            cargarDatosTabla();
+            accionLimpiar(null);
+        } else {
+            mostrarAlerta(Alert.AlertType.ERROR, "Error", "No se pudo eliminar el bibliotecario.");
+        }
     }
 
     private void validarCamposEnTiempoReal() {
@@ -103,10 +233,11 @@ public class BibliotecarioViewController {
             lblErrorArea.setText("");
         }
 
-        btnGuardar.setDisable(!valido);
+        btnGuardar.setDisable(!valido || !txtId.getText().isEmpty());
     }
 
-    @FXML private void restringirLetras(KeyEvent event) {
+    @FXML
+    private void restringirLetras(KeyEvent event) {
         if (!event.getCharacter().matches("[a-zA-ZáéíóúÁÉÍÓÚñÑ\\s]")) event.consume();
     }
 
@@ -114,12 +245,8 @@ public class BibliotecarioViewController {
     private void accionValidar(ActionEvent event) {
         validarCamposEnTiempoReal();
         boolean correcto = !btnGuardar.isDisabled();
-        Alert alert = new Alert(correcto ? Alert.AlertType.INFORMATION : Alert.AlertType.WARNING);
-        alert.setHeaderText(null);
-        alert.setContentText(correcto 
-            ? "¡Todos los datos del bibliotecario cumplen las validaciones!" 
-            : "Por favor corrige los errores en el formulario.");
-        alert.showAndWait();
+        mostrarAlerta(correcto ? Alert.AlertType.INFORMATION : Alert.AlertType.WARNING, "Validación",
+                correcto ? "¡Todos los datos cumplen las validaciones!" : "Por favor corrige los errores.");
     }
 
     @FXML
@@ -135,7 +262,10 @@ public class BibliotecarioViewController {
         lblErrorTurno.setText("");
         lblErrorArea.setText("");
 
+        imgFoto.setImage(null);
+        archivoSeleccionado = null;
         configurarEstadoInicialBotones();
+        tablaBibliotecarios.getSelectionModel().clearSelection();
     }
 
     private void configurarEstadoInicialBotones() {
@@ -145,5 +275,13 @@ public class BibliotecarioViewController {
         btnGuardar.setDisable(true);
         btnEditar.setDisable(true);
         btnEliminar.setDisable(true);
+    }
+
+    private void mostrarAlerta(Alert.AlertType tipo, String titulo, String mensaje) {
+        Alert alert = new Alert(tipo);
+        alert.setHeaderText(null);
+        alert.setTitle(titulo);
+        alert.setContentText(mensaje);
+        alert.showAndWait();
     }
 }

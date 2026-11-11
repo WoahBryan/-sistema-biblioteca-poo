@@ -9,6 +9,7 @@ package edu.utj.dsm.poo.biblioteca.modelo;
 public final class Usuario extends Persona {
     private String numeroCredencial;
     private boolean activo;
+    private String estado;
 
     /**
      * Constructor vacío requerido para frameworks e instanciación por defecto.
@@ -17,6 +18,7 @@ public final class Usuario extends Persona {
         super();
         this.numeroCredencial = "";
         this.activo = false;
+        this.estado = "";
     }
 
     /**
@@ -31,6 +33,7 @@ public final class Usuario extends Persona {
         super(id, nombre, primerApellido);
         this.numeroCredencial = numeroCredencial;
         this.activo = true;
+        this.estado = "Activo"; // Valor por defecto para la base de datos
     }
 
     /**
@@ -56,15 +59,6 @@ public final class Usuario extends Persona {
     public boolean isActivo() {
         return activo;
     }
-    private String estado;
-
-    public String getEstado() {
-        return estado;
-    }
-
-    public void setEstado(String estado) {
-        this.estado = estado;
-    }
 
     /**
      * Establece el estado de actividad del usuario.
@@ -74,8 +68,24 @@ public final class Usuario extends Persona {
         this.activo = activo;
     }
 
+    /**
+     * Obtiene el estado textual del usuario en el sistema.
+     * @return estado del usuario (ej. Activo, Inactivo, Suspendido).
+     */
+    public String getEstado() {
+        return estado;
+    }
+
+    /**
+     * Establece el estado textual del usuario en el sistema.
+     * @param estado estado a asignar.
+     */
+    public void setEstado(String estado) {
+        this.estado = estado;
+    }
+
     @Override
     public String toString() {
-        return super.toString() + " Usuario{" + "numeroCredencial=" + numeroCredencial + ", activo=" + activo + '}';
+        return super.toString() + " Usuario{" + "numeroCredencial=" + numeroCredencial + ", activo=" + activo + ", estado=" + estado + '}';
     }
 }

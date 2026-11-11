@@ -38,29 +38,29 @@
             <VBox alignment="CENTER" spacing="5.0">
                <children>
                   <ImageView fx:id="imgPortada" fitHeight="80.0" fitWidth="60.0" pickOnBounds="true" preserveRatio="true" style="-fx-border-color: gray;" />
-                  <Button text="Portada" style="-fx-font-size: 10px;" />
+                  <Button onAction="#seleccionarPortada" style="-fx-font-size: 10px;" text="Portada" />
                </children>
             </VBox>
             <VBox alignment="CENTER" spacing="5.0">
                <children>
                   <ImageView fx:id="imgContraportada" fitHeight="80.0" fitWidth="60.0" pickOnBounds="true" preserveRatio="true" style="-fx-border-color: gray;" />
-                  <Button text="Contraportada" style="-fx-font-size: 10px;" />
+                  <Button onAction="#seleccionarContraportada" style="-fx-font-size: 10px;" text="Contraportada" />
                </children>
             </VBox>
             <VBox alignment="CENTER" spacing="5.0">
                <children>
                   <ImageView fx:id="imgLomo" fitHeight="80.0" fitWidth="60.0" pickOnBounds="true" preserveRatio="true" style="-fx-border-color: gray;" />
-                  <Button text="Lomo" style="-fx-font-size: 10px;" />
+                  <Button onAction="#seleccionarLomo" style="-fx-font-size: 10px;" text="Lomo" />
                </children>
             </VBox>
          </children>
       </HBox>
 
-      <Button fx:id="btnNuevo" layoutX="30.0" layoutY="480.0" text="Nuevo" />
+     <Button fx:id="btnNuevo" layoutX="30.0" layoutY="480.0" onAction="#accionNuevo" text="Nuevo" />
       <Button fx:id="btnValidar" layoutX="90.0" layoutY="480.0" onAction="#accionValidar" text="Validar" />
-      <Button fx:id="btnGuardar" disable="true" layoutX="155.0" layoutY="480.0" text="Guardar" />
-      <Button fx:id="btnEditar" disable="true" layoutX="225.0" layoutY="480.0" text="Editar" />
-      <Button fx:id="btnEliminar" disable="true" layoutX="285.0" layoutY="480.0" text="Eliminar" />
+      <Button fx:id="btnGuardar" disable="true" layoutX="155.0" layoutY="480.0" onAction="#accionGuardar" text="Guardar" />
+      <Button fx:id="btnEditar" disable="true" layoutX="225.0" layoutY="480.0" onAction="#accionEditar" text="Editar" />
+      <Button fx:id="btnEliminar" disable="true" layoutX="285.0" layoutY="480.0" onAction="#accionEliminar" text="Eliminar" />
       <Button fx:id="btnLimpiar" layoutX="355.0" layoutY="480.0" onAction="#accionLimpiar" text="Limpiar" />
 
       <TableView fx:id="tablaLibros" layoutX="430.0" layoutY="20.0" prefHeight="500.0" prefWidth="350.0">

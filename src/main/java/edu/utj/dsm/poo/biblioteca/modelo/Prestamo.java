@@ -1,7 +1,5 @@
 package edu.utj.dsm.poo.biblioteca.modelo;
 
-import java.util.Date;
-
 /**
  * Clase que representa la transacción del préstamo de un material a un usuario.
  * 
@@ -9,31 +7,37 @@ import java.util.Date;
  */
 public class Prestamo {
     private int id;
-    private Date fechaSalida;
-    private Usuario usuario;
-    private Material material;
+    private String fechaPrestamo;
+    private String fechaDevolucion;
+    private String usuario;
+    private String libro;
 
     /**
      * Constructor vacío.
      */
     public Prestamo() {
         this.id = 0;
-        this.fechaSalida = new Date();
-        this.usuario = new Usuario();
+        this.fechaPrestamo = "";
+        this.fechaDevolucion = "";
+        this.usuario = "";
+        this.libro = "";
     }
 
     /**
      * Constructor con atributos mínimos.
      * 
      * @param id Identificador de la transacción.
-     * @param usuario Usuario que solicita el préstamo.
-     * @param material Material prestado.
+     * @param usuario Nombre del usuario que solicita el préstamo.
+     * @param libro Título del libro o material prestado.
+     * @param fechaPrestamo Fecha en la que se realiza el préstamo.
+     * @param fechaDevolucion Fecha límite de devolución.
      */
-    public Prestamo(int id, Usuario usuario, Material material) {
+    public Prestamo(int id, String usuario, String libro, String fechaPrestamo, String fechaDevolucion) {
         this.id = id;
-        this.fechaSalida = new Date();
         this.usuario = usuario;
-        this.material = material;
+        this.libro = libro;
+        this.fechaPrestamo = fechaPrestamo;
+        this.fechaDevolucion = fechaDevolucion;
     }
 
     /**
@@ -53,51 +57,67 @@ public class Prestamo {
     }
 
     /**
-     * Obtiene la fecha de salida.
+     * Obtiene la fecha de préstamo.
      * @return fecha del préstamo.
      */
-    public Date getFechaSalida() {
-        return fechaSalida;
+    public String getFechaPrestamo() {
+        return fechaPrestamo;
     }
 
     /**
-     * Establece la fecha de salida.
-     * @param fechaSalida fecha a asignar.
+     * Establece la fecha de préstamo.
+     * @param fechaPrestamo fecha a asignar.
      */
-    public void setFechaSalida(Date fechaSalida) {
-        this.fechaSalida = fechaSalida;
+    public void setFechaPrestamo(String fechaPrestamo) {
+        this.fechaPrestamo = fechaPrestamo;
+    }
+
+    /**
+     * Obtiene la fecha de devolución.
+     * @return fecha de devolución.
+     */
+    public String getFechaDevolucion() {
+        return fechaDevolucion;
+    }
+
+    /**
+     * Establece la fecha de devolución.
+     * @param fechaDevolucion fecha a asignar.
+     */
+    public void setFechaDevolucion(String fechaDevolucion) {
+        this.fechaDevolucion = fechaDevolucion;
     }
 
     /**
      * Obtiene el usuario asociado.
-     * @return objeto Usuario.
+     * @return nombre del usuario.
      */
-    public Usuario getUsuario() {
+    public String getUsuario() {
         return usuario;
     }
 
     /**
      * Establece el usuario asociado.
-     * @param usuario objeto a asignar.
+     * @param usuario nombre a asignar.
      */
-    public void setUsuario(Usuario usuario) {
+    public void setUsuario(String usuario) {
         this.usuario = usuario;
     }
 
     /**
      * Obtiene el material prestado.
-     * @return objeto Material.
+     * @return título del libro.
      */
-    public Material getMaterial() {
-        return material;
+    public String getLibro() {
+        return libro;
     }
 
     /**
      * Establece el material prestado.
-     * @param material objeto a asignar.
+     * @param libro título a asignar.
      */
-    public void setMaterial(Material material) {
-        this.material = material;
+    public void setLibro(String libro) {
+        this.libro = libro;
     }
 
     @Override
@@ -124,6 +144,6 @@ public class Prestamo {
 
     @Override
     public String toString() {
-        return "Prestamo{" + "id=" + id + ", fechaSalida=" + fechaSalida + ", usuario=" + usuario + ", material=" + material + '}';
+        return "Prestamo{" + "id=" + id + ", fechaPrestamo=" + fechaPrestamo + ", fechaDevolucion=" + fechaDevolucion + ", usuario=" + usuario + ", libro=" + libro + '}';
     }
 }

@@ -2,6 +2,7 @@
 package edu.utj.dsm.poo.biblioteca.controlador;
 
 import edu.utj.dsm.poo.biblioteca.modelo.Editorial;
+import edu.utj.dsm.poo.biblioteca.persistencia.EditorialDAO;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -32,13 +33,15 @@ public class EditorialViewController {
     @FXML private TableColumn<Editorial, String> colPais;
 
     private ObservableList<Editorial> listaEditoriales = FXCollections.observableArrayList();
+    private EditorialDAO editorialDAO = new EditorialDAO();
 
     @FXML
     public void initialize() {
         colId.setCellValueFactory(new PropertyValueFactory<>("id"));
         colNombre.setCellValueFactory(new PropertyValueFactory<>("nombre"));
         colPais.setCellValueFactory(new PropertyValueFactory<>("pais"));
-        tablaEditoriales.setItems(listaEditoriales);
+        
+        cargarDatosTabla();
 
         configurarEstadoInicialBotones();
 
@@ -47,10 +50,67 @@ public class EditorialViewController {
 
         tablaEditoriales.getSelectionModel().selectedItemProperty().addListener((obs, oldSel, newSel) -> {
             if (newSel != null) {
+                txtId.setText(String.valueOf(newSel.getId()));
+                txtNombre.setText(newSel.getNombre());
+                txtPais.setText(newSel.getPais());
+                
                 btnEditar.setDisable(false);
                 btnEliminar.setDisable(false);
+                btnGuardar.setDisable(true);
             }
         });
+    }
+
+    private void cargarDatosTabla() {
+        listaEditoriales.clear();
+        listaEditoriales.addAll(editorialDAO.obtenerTodos());
+        tablaEditoriales.setItems(listaEditoriales);
+    }
+
+    @FXML
+    private void accionGuardar(ActionEvent event) {
+        Editorial nuevaEditorial = new Editorial();
+        nuevaEditorial.setNombre(txtNombre.getText());
+        nuevaEditorial.setPais(txtPais.getText());
+
+        if (editorialDAO.insertar(nuevaEditorial)) {
+            mostrarAlerta(Alert.AlertType.INFORMATION, "Éxito", "Editorial guardada correctamente.");
+            cargarDatosTabla();
+            accionLimpiar(null);
+        } else {
+            mostrarAlerta(Alert.AlertType.ERROR, "Error", "No se pudo guardar la editorial.");
+        }
+    }
+
+    @FXML
+    private void accionEditar(ActionEvent event) {
+        Editorial editorialSeleccionada = tablaEditoriales.getSelectionModel().getSelectedItem();
+        if (editorialSeleccionada != null) {
+            editorialSeleccionada.setNombre(txtNombre.getText());
+            editorialSeleccionada.setPais(txtPais.getText());
+
+            if (editorialDAO.actualizar(editorialSeleccionada)) {
+                mostrarAlerta(Alert.AlertType.INFORMATION, "Éxito", "Editorial actualizada correctamente.");
+                cargarDatosTabla();
+                accionLimpiar(null);
+            } else {
+                mostrarAlerta(Alert.AlertType.ERROR, "Error", "No se pudo actualizar la editorial.");
+            }
+        }
+    }
+
+    @FXML
+    private void accionEliminar(ActionEvent event) {
+        Editorial editorialSeleccionada = tablaEditoriales.getSelectionModel().getSelectedItem();
+        if (editorialSeleccionada != null) {
+            if (editorialDAO.eliminar(editorialSeleccionada.getId())) {
+                mostrarAlerta(Alert.AlertType.INFORMATION, "Éxito", "Editorial eliminada correctamente.");
+                cargarDatosTabla();
+                accionLimpiar(null);
+            } else {
+                mostrarAlerta(Alert.AlertType.ERROR, "Error", "No se pudo eliminar la editorial.");
+            }
+        }
     }
 
     private void validarCamposEnTiempoReal() {
@@ -73,7 +133,7 @@ public class EditorialViewController {
             lblErrorPais.setText("");
         }
 
-        btnGuardar.setDisable(!valido);
+        btnGuardar.setDisable(!valido || !txtId.getText().isEmpty());
     }
 
     @FXML private void restringirLetras(KeyEvent event) {
@@ -83,13 +143,8 @@ public class EditorialViewController {
     @FXML
     private void accionValidar(ActionEvent event) {
         validarCamposEnTiempoReal();
-        boolean correcto = !btnGuardar.isDisabled();
-        Alert alert = new Alert(correcto ? Alert.AlertType.INFORMATION : Alert.AlertType.WARNING);
-        alert.setHeaderText(null);
-        alert.setContentText(correcto 
-            ? "¡Todos los datos de la editorial cumplen las validaciones!" 
-            : "Por favor corrige los errores en el formulario.");
-        alert.showAndWait();
+        boolean correcto = txtNombre.getText().length() > 0 && txtPais.getText().length() > 0;
+        mostrarAlerta(correcto ? Alert.AlertType.INFORMATION : Alert.AlertType.WARNING, "Validación", correcto ? "¡Todos los datos cumplen las validaciones!" : "Por favor corrige los errores.");
     }
 
     @FXML
@@ -102,6 +157,7 @@ public class EditorialViewController {
         lblErrorPais.setText("");
 
         configurarEstadoInicialBotones();
+        tablaEditoriales.getSelectionModel().clearSelection();
     }
 
     private void configurarEstadoInicialBotones() {
@@ -111,5 +167,13 @@ public class EditorialViewController {
         btnGuardar.setDisable(true);
         btnEditar.setDisable(true);
         btnEliminar.setDisable(true);
+    }
+    
+    private void mostrarAlerta(Alert.AlertType tipo, String titulo, String mensaje) {
+        Alert alert = new Alert(tipo);
+        alert.setHeaderText(null);
+        alert.setTitle(titulo);
+        alert.setContentText(mensaje);
+        alert.showAndWait();
     }
 }

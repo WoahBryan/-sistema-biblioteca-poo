@@ -10,6 +10,12 @@ public final class Revista extends Material {
     private int volumen;
     private int numeroEdicion;
     private String frecuencia;
+    
+    // Variables agregadas para compatibilidad con la pantalla y base de datos
+    private String editorial;
+    private String issn;
+    private int numero;
+    private String periodicidad;
 
     /**
      * Constructor vacío.
@@ -19,6 +25,10 @@ public final class Revista extends Material {
         this.volumen = 0;
         this.numeroEdicion = 0;
         this.frecuencia = "";
+        this.editorial = "";
+        this.issn = "";
+        this.numero = 0;
+        this.periodicidad = "";
     }
 
     /**
@@ -33,7 +43,47 @@ public final class Revista extends Material {
         this.numeroEdicion = numeroEdicion;
         this.volumen = 0;
         this.frecuencia = "";
+        this.editorial = "";
+        this.issn = "";
+        this.numero = 0;
+        this.periodicidad = "";
     }
+
+    // --- NUEVOS GETTERS Y SETTERS PARA LA PANTALLA ---
+
+    public String getEditorial() {
+        return editorial;
+    }
+
+    public void setEditorial(String editorial) {
+        this.editorial = editorial;
+    }
+
+    public String getIssn() {
+        return issn;
+    }
+
+    public void setIssn(String issn) {
+        this.issn = issn;
+    }
+
+    public int getNumero() {
+        return numero;
+    }
+
+    public void setNumero(int numero) {
+        this.numero = numero;
+    }
+
+    public String getPeriodicidad() {
+        return periodicidad;
+    }
+
+    public void setPeriodicidad(String periodicidad) {
+        this.periodicidad = periodicidad;
+    }
+
+    // --- GETTERS Y SETTERS ORIGINALES ---
 
     /**
      * Obtiene el volumen.
@@ -85,6 +135,6 @@ public final class Revista extends Material {
 
     @Override
     public String toString() {
-        return super.toString() + " Revista{" + "volumen=" + volumen + ", numeroEdicion=" + numeroEdicion + ", frecuencia=" + frecuencia + '}';
+        return super.toString() + " Revista{" + "volumen=" + volumen + ", numeroEdicion=" + numeroEdicion + ", frecuencia=" + frecuencia + ", editorial=" + editorial + ", issn=" + issn + ", numero=" + numero + ", periodicidad=" + periodicidad + '}';
     }
 }

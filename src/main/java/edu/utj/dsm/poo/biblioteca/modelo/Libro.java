@@ -11,7 +11,33 @@ public final class Libro extends Material {
     private int numeroPaginas;
     private Autor autor;
     private Editorial editorial;
+    private String rutaImagen1;
+    private String rutaImagen2;
+    private String rutaImagen3;
 
+    public String getRutaImagen1() {
+        return rutaImagen1;
+    }
+
+    public void setRutaImagen1(String rutaImagen1) {
+        this.rutaImagen1 = rutaImagen1;
+    }
+
+    public String getRutaImagen2() {
+        return rutaImagen2;
+    }
+
+    public void setRutaImagen2(String rutaImagen2) {
+        this.rutaImagen2 = rutaImagen2;
+    }
+
+    public String getRutaImagen3() {
+        return rutaImagen3;
+    }
+
+    public void setRutaImagen3(String rutaImagen3) {
+        this.rutaImagen3 = rutaImagen3;
+    }
     /**
      * Constructor vacío requerido por la rúbrica.
      */

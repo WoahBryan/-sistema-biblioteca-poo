@@ -7,7 +7,10 @@ package edu.utj.dsm.poo.biblioteca.modelo;
  */
 public class Multa {
     private int id;
+    private String usuario;
     private double monto;
+    private String motivo;
+    private String estado;
     private boolean pagada;
     private Prestamo prestamo;
 
@@ -16,85 +19,70 @@ public class Multa {
      */
     public Multa() {
         this.id = 0;
+        this.usuario = "";
         this.monto = 0.0;
+        this.motivo = "";
+        this.estado = "";
         this.pagada = false;
-        this.prestamo = new Prestamo();
+        // this.prestamo = new Prestamo(); // Comentado por si no tienes la clase Prestamo lista aún, quítale las diagonales si sí la tienes
     }
 
-    /**
-     * Constructor con atributos mínimos.
-     * 
-     * @param id Identificador de la multa.
-     * @param monto Cantidad a pagar.
-     * @param prestamo Préstamo que generó la multa.
-     */
-    public Multa(int id, double monto, Prestamo prestamo) {
-        this.id = id;
-        this.monto = monto;
-        this.prestamo = prestamo;
-        this.pagada = false;
+    // --- NUEVOS GETTERS Y SETTERS PARA LA PANTALLA ---
+
+    public String getUsuario() {
+        return usuario;
     }
 
-    /**
-     * Obtiene el ID.
-     * @return identificador entero.
-     */
+    public void setUsuario(String usuario) {
+        this.usuario = usuario;
+    }
+
+    public String getMotivo() {
+        return motivo;
+    }
+
+    public void setMotivo(String motivo) {
+        this.motivo = motivo;
+    }
+
+    public String getEstado() {
+        return estado;
+    }
+
+    public void setEstado(String estado) {
+        this.estado = estado;
+    }
+
+    // --- GETTERS Y SETTERS ORIGINALES ---
+
     public int getId() {
         return id;
     }
 
-    /**
-     * Establece el ID.
-     * @param id identificador a asignar.
-     */
     public void setId(int id) {
         this.id = id;
     }
 
-    /**
-     * Obtiene el monto.
-     * @return cantidad adeudada.
-     */
     public double getMonto() {
         return monto;
     }
 
-    /**
-     * Establece el monto.
-     * @param monto cantidad a asignar.
-     */
     public void setMonto(double monto) {
         this.monto = monto;
     }
 
-    /**
-     * Verifica si está pagada.
-     * @return true si ya fue liquidada.
-     */
     public boolean isPagada() {
         return pagada;
     }
 
-    /**
-     * Establece el estado de pago.
-     * @param pagada estado a asignar.
-     */
     public void setPagada(boolean pagada) {
         this.pagada = pagada;
     }
 
-    /**
-     * Obtiene el préstamo asociado.
-     * @return objeto Prestamo.
-     */
     public Prestamo getPrestamo() {
         return prestamo;
     }
 
-    /**
-     * Establece el préstamo asociado.
-     * @param prestamo objeto a asignar.
-     */
     public void setPrestamo(Prestamo prestamo) {
         this.prestamo = prestamo;
     }
@@ -123,6 +111,6 @@ public class Multa {
 
     @Override
     public String toString() {
-        return "Multa{" + "id=" + id + ", monto=" + monto + ", pagada=" + pagada + ", prestamo=" + prestamo + '}';
+        return "Multa{" + "id=" + id + ", usuario=" + usuario + ", monto=" + monto + ", motivo=" + motivo + ", estado=" + estado + '}';
     }
 }

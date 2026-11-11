@@ -9,7 +9,23 @@ package edu.utj.dsm.poo.biblioteca.modelo;
 public final class Bibliotecario extends Persona {
     private String turno;
     private String area;
+private String foto = "";
 
+/**
+ * Obtiene la ruta de la imagen del bibliotecario.
+ * @return ruta de la foto.
+ */
+public String getFoto() {
+    return foto;
+}
+
+/**
+ * Establece la ruta de la imagen del bibliotecario.
+ * @param foto ruta a asignar.
+ */
+public void setFoto(String foto) {
+    this.foto = foto;
+}
     /**
      * Constructor vacío requerido para frameworks e instanciación por defecto.
      */

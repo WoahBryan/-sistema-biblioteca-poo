@@ -9,7 +9,7 @@ package edu.utj.dsm.poo.biblioteca.modelo;
 public final class Autor extends Persona {
     private String nacionalidad;
     private String seudonimo;
-
+    private String foto;
     /**
      * Constructor vacío requerido por la rúbrica.
      */
@@ -69,4 +69,11 @@ public final class Autor extends Persona {
     public String toString() {
         return super.toString() + " Autor{" + "nacionalidad=" + nacionalidad + ", seudonimo=" + seudonimo + '}';
     }
+    public String getFoto() {
+    return foto;
+}
+
+public void setFoto(String foto) {
+    this.foto = foto;
+}
 }

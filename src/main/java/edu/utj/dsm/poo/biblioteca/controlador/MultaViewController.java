@@ -2,6 +2,7 @@
 package edu.utj.dsm.poo.biblioteca.controlador;
 
 import edu.utj.dsm.poo.biblioteca.modelo.Multa;
+import edu.utj.dsm.poo.biblioteca.persistencia.MultaDAO;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -36,6 +37,7 @@ public class MultaViewController {
     @FXML private TableColumn<Multa, String> colEstado;
 
     private ObservableList<Multa> listaMultas = FXCollections.observableArrayList();
+    private MultaDAO multaDAO = new MultaDAO();
 
     @FXML
     public void initialize() {
@@ -44,22 +46,86 @@ public class MultaViewController {
         colMonto.setCellValueFactory(new PropertyValueFactory<>("monto"));
         colMotivo.setCellValueFactory(new PropertyValueFactory<>("motivo"));
         colEstado.setCellValueFactory(new PropertyValueFactory<>("estado"));
-        tablaMultas.setItems(listaMultas);
-
+        
         cmbEstado.getItems().addAll("Pendiente", "Pagada", "Cancelada");
-
+        
+        cargarDatosTabla();
         configurarEstadoInicialBotones();
 
         txtUsuario.textProperty().addListener((obs, oldVal, newVal) -> validarCamposEnTiempoReal());
         txtMonto.textProperty().addListener((obs, oldVal, newVal) -> validarCamposEnTiempoReal());
         txtMotivo.textProperty().addListener((obs, oldVal, newVal) -> validarCamposEnTiempoReal());
+        cmbEstado.valueProperty().addListener((obs, oldVal, newVal) -> validarCamposEnTiempoReal());
 
         tablaMultas.getSelectionModel().selectedItemProperty().addListener((obs, oldSel, newSel) -> {
             if (newSel != null) {
+                txtId.setText(String.valueOf(newSel.getId()));
+                txtUsuario.setText(newSel.getUsuario());
+                txtMonto.setText(String.valueOf(newSel.getMonto()));
+                txtMotivo.setText(newSel.getMotivo());
+                cmbEstado.setValue(newSel.getEstado());
+                
                 btnEditar.setDisable(false);
                 btnEliminar.setDisable(false);
+                btnGuardar.setDisable(true);
             }
         });
+    }
+
+    private void cargarDatosTabla() {
+        listaMultas.clear();
+        listaMultas.addAll(multaDAO.obtenerTodos());
+        tablaMultas.setItems(listaMultas);
+    }
+
+    @FXML
+    private void accionGuardar(ActionEvent event) {
+        Multa nuevaMulta = new Multa();
+        nuevaMulta.setUsuario(txtUsuario.getText());
+        nuevaMulta.setMonto(Double.parseDouble(txtMonto.getText()));
+        nuevaMulta.setMotivo(txtMotivo.getText());
+        nuevaMulta.setEstado(cmbEstado.getValue());
+
+        if (multaDAO.insertar(nuevaMulta)) {
+            mostrarAlerta(Alert.AlertType.INFORMATION, "Éxito", "Multa guardada correctamente.");
+            cargarDatosTabla();
+            accionLimpiar(null);
+        } else {
+            mostrarAlerta(Alert.AlertType.ERROR, "Error", "No se pudo guardar la multa.");
+        }
+    }
+
+    @FXML
+    private void accionEditar(ActionEvent event) {
+        Multa multaSeleccionada = tablaMultas.getSelectionModel().getSelectedItem();
+        if (multaSeleccionada != null) {
+            multaSeleccionada.setUsuario(txtUsuario.getText());
+            multaSeleccionada.setMonto(Double.parseDouble(txtMonto.getText()));
+            multaSeleccionada.setMotivo(txtMotivo.getText());
+            multaSeleccionada.setEstado(cmbEstado.getValue());
+
+            if (multaDAO.actualizar(multaSeleccionada)) {
+                mostrarAlerta(Alert.AlertType.INFORMATION, "Éxito", "Multa actualizada correctamente.");
+                cargarDatosTabla();
+                accionLimpiar(null);
+            } else {
+                mostrarAlerta(Alert.AlertType.ERROR, "Error", "No se pudo actualizar la multa.");
+            }
+        }
+    }
+
+    @FXML
+    private void accionEliminar(ActionEvent event) {
+        Multa multaSeleccionada = tablaMultas.getSelectionModel().getSelectedItem();
+        if (multaSeleccionada != null) {
+            if (multaDAO.eliminar(multaSeleccionada.getId())) {
+                mostrarAlerta(Alert.AlertType.INFORMATION, "Éxito", "Multa eliminada correctamente.");
+                cargarDatosTabla();
+                accionLimpiar(null);
+            } else {
+                mostrarAlerta(Alert.AlertType.ERROR, "Error", "No se pudo eliminar la multa.");
+            }
+        }
     }
 
     private void validarCamposEnTiempoReal() {
@@ -88,20 +154,19 @@ public class MultaViewController {
         } else {
             lblErrorMotivo.setText("");
         }
+        
+        if (cmbEstado.getValue() == null) {
+            valido = false;
+        }
 
-        btnGuardar.setDisable(!valido);
+        btnGuardar.setDisable(!valido || !txtId.getText().isEmpty());
     }
 
     @FXML
     private void accionValidar(ActionEvent event) {
         validarCamposEnTiempoReal();
         boolean correcto = !btnGuardar.isDisabled();
-        Alert alert = new Alert(correcto ? Alert.AlertType.INFORMATION : Alert.AlertType.WARNING);
-        alert.setHeaderText(null);
-        alert.setContentText(correcto 
-            ? "¡Todos los datos de la multa cumplen las validaciones!" 
-            : "Por favor corrige los errores en el formulario.");
-        alert.showAndWait();
+        mostrarAlerta(correcto ? Alert.AlertType.INFORMATION : Alert.AlertType.WARNING, "Validación", correcto ? "¡Todos los datos cumplen las validaciones!" : "Por favor corrige los errores.");
     }
 
     @FXML
@@ -117,6 +182,7 @@ public class MultaViewController {
         lblErrorMotivo.setText("");
 
         configurarEstadoInicialBotones();
+        tablaMultas.getSelectionModel().clearSelection();
     }
 
     private void configurarEstadoInicialBotones() {
@@ -126,5 +192,13 @@ public class MultaViewController {
         btnGuardar.setDisable(true);
         btnEditar.setDisable(true);
         btnEliminar.setDisable(true);
+    }
+    
+    private void mostrarAlerta(Alert.AlertType tipo, String titulo, String mensaje) {
+        Alert alert = new Alert(tipo);
+        alert.setHeaderText(null);
+        alert.setTitle(titulo);
+        alert.setContentText(mensaje);
+        alert.showAndWait();
     }
 }

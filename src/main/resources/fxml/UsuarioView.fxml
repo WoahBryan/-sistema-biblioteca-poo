@@ -26,9 +26,9 @@
 
       <Button fx:id="btnNuevo" layoutX="30.0" layoutY="350.0" text="Nuevo" />
       <Button fx:id="btnValidar" layoutX="90.0" layoutY="350.0" text="Validar" onAction="#accionValidar"/>
-      <Button fx:id="btnGuardar" layoutX="155.0" layoutY="350.0" text="Guardar" disable="true"/>
-      <Button fx:id="btnEditar" layoutX="230.0" layoutY="350.0" text="Editar" disable="true"/>
-      <Button fx:id="btnEliminar" layoutX="290.0" layoutY="350.0" text="Eliminar" disable="true"/>
+      <Button fx:id="btnGuardar" layoutX="155.0" layoutY="350.0" onAction="#accionGuardar" text="Guardar" disable="true"/>
+      <Button fx:id="btnEditar" layoutX="230.0" layoutY="350.0" onAction="#accionEditar" text="Editar" disable="true"/>
+      <Button fx:id="btnEliminar" layoutX="290.0" layoutY="350.0"  onAction="#accionEliminar" text="Eliminar" disable="true"/>
       <Button fx:id="btnLimpiar" layoutX="365.0" layoutY="350.0" text="Limpiar" onAction="#accionLimpiar"/>
 
       <TableView fx:id="tablaUsuarios" layoutX="440.0" layoutY="20.0" prefHeight="450.0" prefWidth="290.0">

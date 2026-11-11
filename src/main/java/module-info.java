@@ -1,6 +1,7 @@
 module com.mycompany.biblioteca {
     requires javafx.controls;
     requires javafx.fxml;
+    requires java.sql;
 
     opens edu.utj.dsm.poo.biblioteca to javafx.fxml;
     opens edu.utj.dsm.poo.biblioteca.controlador to javafx.fxml;
