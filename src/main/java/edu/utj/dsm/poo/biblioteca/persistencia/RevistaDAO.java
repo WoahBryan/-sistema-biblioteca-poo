@@ -7,7 +7,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-
+// Actualizacion del codigo
 public class RevistaDAO {
 
     public boolean insertar(Revista revista) {
