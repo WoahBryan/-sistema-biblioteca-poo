@@ -1,4 +1,4 @@
-# Sistema de Biblioteca - Autenticación y Autorización (Actividad 3.10)
+# Sistema de Biblioteca 
 
 Este repositorio contiene la actualización de mi Sistema de Gestión de Biblioteca en JavaFX. En esta fase del proyecto, se implementó un sistema de seguridad para restringir el acceso y controlar qué puede hacer cada persona dentro de la aplicación.
 
