@@ -43,7 +43,7 @@ public class LoginController {
 
     private void cargarPantallaPrincipal() {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/RevistaView.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/AutorView.fxml"));
             Parent root = loader.load();
             
             Stage stage = (Stage) txtUsuario.getScene().getWindow();
